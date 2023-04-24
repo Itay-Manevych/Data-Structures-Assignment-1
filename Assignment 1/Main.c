@@ -32,9 +32,9 @@ int Search2(int V[], int m, int x, int* iterations)
 			*iterations = count;
 			return mid;
 		}
-		if (V[mid] < x)
+		if (V[mid] < x && V[mid] != 0)
 			left = mid + 1;
-		else
+		else // V[mid] > x || V[mid] == 0
 			right = mid - 1;
 	}
 	*iterations = count;
@@ -90,13 +90,13 @@ void BubbleSort(int V[], int size)
 {
 	for (int i = 0; i < size - 1; i++)
 	{
-		for (int j = i + 1; j < size - i - 1; j++)
+		for (int j = 0; j < size - i - 1; j++)
 		{
-			if (V[i] > V[j])
+			if (V[j] > V[j + 1])
 			{
-				int temp = V[i];
-				V[i] = V[j];
-				V[j] = temp;
+				int temp = V[j];
+				V[j] = V[j + 1];
+				V[j + 1] = temp;
 			}
 		}
 	}
@@ -129,7 +129,7 @@ int main()
 		{
 			arr[i] = rand() + 1; // random number that is not 0
 		}
-
+	
 		BubbleSort(arr, n);
 
 		int x = rand() + 1; // random number that is not 0
@@ -137,12 +137,12 @@ int main()
 		Search1(arr, arr_size, x, &iterations_search1);
 		Search2(arr, arr_size, x, &iterations_search2);
 		Search3(arr, arr_size, x, &iterations_search3);
-
+		
 		sum_search1 += iterations_search1;
 		sum_search2 += iterations_search2;
 		sum_search3 += iterations_search3;
-	}
 
+	}
 	printf("200 <= %d <= 300\n", n_sum / 500);
 	printf("Search1: %d\n", sum_search1 / 500); // O(n)
 	printf("Search2: %d\n", sum_search2 / 500); // O(log m)
